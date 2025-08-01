@@ -1,0 +1,369 @@
+.card {
+  width: 100%;
+  max-width: 500px;
+  height: 400px;
+  margin: 0 auto;
+  perspective: 1000px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+}
+
+.card.loaded {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+
+.card:focus {
+  outline: none;
+  transform: translateY(-5px) scale(1.02);
+}
+
+.card:focus-visible {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.card-header {
+  background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+  color: white;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: shimmer 3s infinite;
+}
+
+.category {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+  animation: slideInLeft 0.6s ease-out 0.2s both;
+}
+
+.service-name {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  animation: slideInLeft 0.6s ease-out 0.4s both;
+}
+
+.card-content {
+  padding: 25px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #2d3436;
+}
+
+.question {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2d3436;
+  margin: 0 0 20px 0;
+  line-height: 1.4;
+  animation: fadeInUp 0.6s ease-out 0.6s both;
+}
+
+.answer {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #636e72;
+  margin: 0 0 20px 0;
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.key-points {
+  margin-top: 20px;
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.key-points h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d3436;
+  margin: 0 0 10px 0;
+}
+
+.key-points ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.key-points li {
+  position: relative;
+  padding: 8px 0 8px 25px;
+  color: #636e72;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  opacity: 0;
+  animation: slideInRight 0.4s ease-out forwards;
+}
+
+.key-points li::before {
+  content: '▶';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  color: #6c5ce7;
+  font-size: 0.8rem;
+  animation: pulse 2s infinite;
+}
+
+.flip-hint {
+  text-align: center;
+  margin-top: auto;
+  padding-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  animation: fadeIn 0.6s ease-out 0.8s both;
+}
+
+.flip-hint span {
+  font-size: 0.85rem;
+  color: #74b9ff;
+  font-weight: 500;
+}
+
+.hint-animation {
+  font-size: 1.2rem;
+  color: #74b9ff;
+  animation: rotate 2s linear infinite;
+}
+
+/* Animations */
+@keyframes shimmer {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hover effects */
+.card:hover .card-header::before {
+  animation-duration: 1s;
+}
+
+.card:hover .hint-animation {
+  animation-duration: 0.5s;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .card {
+    max-width: 100%;
+    height: 350px;
+  }
+  
+  .card-header {
+    padding: 15px;
+  }
+  
+  .service-name {
+    font-size: 1.3rem;
+  }
+  
+  .card-content {
+    padding: 20px;
+  }
+  
+  .question {
+    font-size: 1.1rem;
+  }
+  
+  .answer {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    height: 320px;
+  }
+  
+  .card-header {
+    padding: 12px;
+  }
+  
+  .service-name {
+    font-size: 1.2rem;
+  }
+  
+  .card-content {
+    padding: 15px;
+  }
+  
+  .question {
+    font-size: 1rem;
+  }
+  
+  .key-points li {
+    font-size: 0.85rem;
+    padding: 6px 0 6px 20px;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .card-front,
+  .card-back {
+    background: #fff;
+    border: 2px solid #000;
+  }
+  
+  .card-header {
+    background: #000;
+    color: #fff;
+  }
+  
+  .answer,
+  .key-points li {
+    color: #000;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card-inner,
+  .category,
+  .service-name,
+  .question,
+  .answer,
+  .key-points,
+  .key-points li,
+  .flip-hint {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .card.loaded {
+    opacity: 1;
+    transform: none;
+  }
+  
+  .hint-animation {
+    animation: none !important;
+  }
+}
