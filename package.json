@@ -2,13 +2,16 @@
   "name": "aws-quest-cards",
   "version": "1.0.0",
   "description": "Cards de estudo para AWS Cloud Practitioner",
+
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:coverage": "react-scripts test --coverage --watchAll=false",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -18,7 +21,8 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^14.6.1"
+    "@testing-library/user-event": "^14.6.1",
+    "gh-pages": "^6.3.0"
   },
   "browserslist": {
     "production": [
