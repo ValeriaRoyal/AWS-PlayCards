@@ -3,105 +3,79 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from './App';
 
-describe('AWS Quest App - Nielsen Heuristics Interface', () => {
+describe('AWS Quest App - Clean Interface', () => {
   beforeEach(() => {
-    // Clear localStorage before each test
     localStorage.clear();
   });
 
-  test('renders app header', () => {
+  test('renders clean app header', () => {
     render(<App />);
-    const headerElement = screen.getByText(/AWS Quest - Cards de Estudo/i);
+    const headerElement = screen.getByText(/AWS Quest/i);
     expect(headerElement).toBeInTheDocument();
   });
 
-  test('renders category filter with Nielsen H2 principles', () => {
+  test('renders status counter', () => {
     render(<App />);
-    const filterLabel = screen.getByText(/📂 Escolha a categoria:/i);
-    expect(filterLabel).toBeInTheDocument();
+    const statusElement = screen.getByText(/1 \/ 6/);
+    expect(statusElement).toBeInTheDocument();
+  });
+
+  test('renders category filter', () => {
+    render(<App />);
+    const categorySelect = screen.getByDisplayValue(/Todas/);
+    expect(categorySelect).toBeInTheDocument();
+  });
+
+  test('renders reset button', () => {
+    render(<App />);
+    const resetButton = screen.getByText(/Reset/);
+    expect(resetButton).toBeInTheDocument();
   });
 
   test('renders navigation buttons', () => {
     render(<App />);
-    const prevButton = screen.getByText(/← Anterior/);
-    const nextButton = screen.getByText(/Próximo →/);
+    const navButtons = screen.getAllByRole('button');
+    const prevButton = navButtons.find(button => button.textContent === '←');
+    const nextButton = navButtons.find(button => button.textContent === '→');
     expect(prevButton).toBeInTheDocument();
     expect(nextButton).toBeInTheDocument();
   });
 
-  test('renders system status (Nielsen H1)', () => {
+  test('renders keyboard shortcuts', () => {
     render(<App />);
-    const cardPosition = screen.getByText(/Card 1 de/);
-    expect(cardPosition).toBeInTheDocument();
+    const spaceKey = screen.getByText('Space');
+    expect(spaceKey).toBeInTheDocument();
   });
 
-  test('renders progress statistics', () => {
+  test('renders progress bar', () => {
     render(<App />);
-    const progressStats = screen.getByText(/📚 Estudados:/);
-    expect(progressStats).toBeInTheDocument();
+    const progressText = screen.getByText(/0\/6 estudados/);
+    expect(progressText).toBeInTheDocument();
   });
 
-  test('renders reset button with Nielsen H3 principles', () => {
+  test('category filter works', () => {
     render(<App />);
-    const resetButton = screen.getByText(/🔄 Recomeçar/);
-    expect(resetButton).toBeInTheDocument();
-  });
-
-  test('category filter changes work', () => {
-    render(<App />);
-    const categorySelect = screen.getByDisplayValue(/📚 Todas as categorias/);
+    const categorySelect = screen.getByDisplayValue(/Todas/);
     
     fireEvent.change(categorySelect, { target: { value: 'Compute' } });
     
-    // Check that the category status in header shows the selected category
-    const categoryStatus = screen.getByText(/Card 1 de 1/);
-    expect(categoryStatus).toBeInTheDocument();
+    const statusElement = screen.getByText(/1 \/ 1/);
+    expect(statusElement).toBeInTheDocument();
   });
 
-  test('keyboard shortcuts are displayed (Nielsen H6)', () => {
+  test('empty state shows when no cards found', () => {
     render(<App />);
-    const keyboardHint = screen.getByText(/⌨️ Atalhos:/);
-    expect(keyboardHint).toBeInTheDocument();
-  });
-
-  test('progress bars are rendered (Nielsen H7)', () => {
-    render(<App />);
-    const categoryProgress = screen.getByText(/Categoria Atual/);
-    const totalProgress = screen.getByText(/Progresso Total/);
-    expect(categoryProgress).toBeInTheDocument();
-    expect(totalProgress).toBeInTheDocument();
-  });
-
-  test('help section is available (Nielsen H10)', () => {
-    render(<App />);
-    const helpToggle = screen.getByText(/❓ Como usar/);
-    expect(helpToggle).toBeInTheDocument();
-  });
-
-  test('accessibility attributes are present', () => {
-    render(<App />);
-    const categorySelect = screen.getByRole('combobox');
-    const progressBars = screen.getAllByRole('progressbar');
+    const categorySelect = screen.getByDisplayValue(/Todas/);
     
-    expect(categorySelect).toHaveAttribute('aria-describedby');
-    expect(progressBars.length).toBeGreaterThan(0);
-  });
-
-  test('error prevention - empty state handling', () => {
-    render(<App />);
-    
-    // Change to a category that might not exist
-    const categorySelect = screen.getByDisplayValue(/📚 Todas as categorias/);
     fireEvent.change(categorySelect, { target: { value: 'NonExistent' } });
     
-    // Should still render without crashing
-    const headerElement = screen.getByText(/AWS Quest - Cards de Estudo/i);
-    expect(headerElement).toBeInTheDocument();
+    const emptyState = screen.getByText(/Nenhum card encontrado/);
+    expect(emptyState).toBeInTheDocument();
   });
 
   test('app renders without errors', () => {
     render(<App />);
-    const appElement = screen.getByText(/AWS Quest - Cards de Estudo/i);
+    const appElement = screen.getByText(/AWS Quest/i);
     expect(appElement).toBeInTheDocument();
   });
 });
